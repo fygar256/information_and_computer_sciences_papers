@@ -55,31 +55,31 @@ Also,
 
 #### Solving the Incompleteness Theorem
 
-Applying the Incompleteness Theorem to computers means they can't prove their own completeness, so human evaluation becomes necessary? 
+Does applying the incompleteness theorem to a computer not prove its own completeness by itself require human evaluation? 
 
-It would be good to have two axiom systems: one for processing and one for evaluation. 
+Since von Neumann computers are inherently finite and can only handle infinity formally or theoretically, please read the paragraph below assuming that they can theoretically handle infinity. 
 
-Systems that are consistently finite, extremely simple, or non-contradictory and non-recursively enumerable are unaffected by the Incompleteness Theorem. 
+Classical computers have finite memory and time, but they can theoretically create infinity—in fact, since the Turing machine is the prototype, they are theoretically infinite. 
 
-Therefore, the evaluation system could be finite, extremely simple, or non-contradictory and non-recursively enumerable. 
+Extremely simple examples of infinity include while 1 {}, a value added infinitely in an infinite loop, and an ideal, but never-ending, input in real time.
 
-Physical classical computers have finite memory and time, but theoretically, infinity can be achieved—or rather, since the Turing machine is the prototype, it is theoretically infinite. 
+To solve the incompleteness theorem, all you need is two axiom systems: one for processing and one for evaluation. 
 
-Extremely simple examples of infinity include (while 1 {}), values added infinitely in an infinite loop, or ideal but real-time endless input. 
+Systems that are not consistently infinite (finite systems), extremely simple systems, or systems that are not consistent and recursively enumerable are not affected by the incompleteness theorem.
 
-Without infinity, errors can be detected. Such systems are likely what we call simple. 
+Therefore, the evaluation system can be finite, extremely simple, or consistent and not recursively enumerable. Without infinity, errors can be detected. 
 
-This resolves the incompleteness theorem. I haven't proven it logically, but with a different axiomatic system, self-contradictions can be evaluated. 
+That's what we call a simple system. This solves the incompleteness theorem. I haven't been able to logically prove it, but with another axiom system, we can evaluate the self-contradiction. 
 
-Russell simplified it. That's sufficient. Ultimately, human evaluation isn't needed for an automatic debugger (this is currently the hypothesis that fully automated debugging by computers is possible).
+Russell simplified it. That's enough. Ultimately, automated debuggers don't need human evaluation (this is the current hypothesis that fully automated debugging by computers is possible).
 
-However, another devilishly clever person like Kurt Gödel might emerge, invent a new theory, and render it unsolvable again. 
+However, someone devilishly clever like Kurt Gödel might come along and invent a new theory, making the problem unsolvable. 
 
-If a second axiom system is complete and fails to satisfy even one of the three conditions mentioned earlier, it risks being overturned by the incompleteness theorem. 
+If the second axiom system is complete and doesn't satisfy any of the three conditions listed above, there's a risk that it will be overturned by the incompleteness theorem. 
 
-This seems odd—I thought the incompleteness theorem could be resolved. A logical proof resolving the incompleteness theorem already exists and is taught in universities. 
+Something's wrong. I thought the incompleteness theorem was solvable. The logical proof of the solution to the incompleteness theorem has already been achieved and is taught at universities. 
 
-Thank you, logicians, for teaching us.
+Thank you, logicians, for letting me know.
 
 ChatGPT Output
 
