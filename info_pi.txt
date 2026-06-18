@@ -1,151 +1,146 @@
 ---
-title: Attempt to extract arbitrary information from π and true random number sequences
-tags: Terminal Linux Python Information Theory PyPI
+title: An attempt to extract arbitrary information from π and true random number sequences
+tags: Terminal Python Information Theory PyPI UNIX
 author: fygar256
 slide: false
 ---
+If pi (π) is a perfectly random number sequence, then π contains all information. (This is different from having infinite information.)
 
-If the circumference ratio π is a perfect random number sequence, then π has infinite information and contains all information.
+|----chatGPT
+|The question of whether π is a **normal number** is:
+|Does any sequence of numbers appear with the same frequency?
+|However,
+|It has not been proven that π is a normal number (a rather surprising point).
+|In ​​other words, it seems extremely random.
+|But the question of "Is it truly perfect?" remains unresolved.
+|----------
+Here, we assume that π is a perfectly random number sequence.
 
-Here, we assume that π is a perfect random number sequence.
+This program generates pi, decodes it into characters, and extracts the information contained in pi.
 
-This program generates π, decodes it into characters, and extracts the information contained in π.
+This program's decoding method uses the string "i=" 0123456789.,abcdefghijklmnopqrstuvwxyz" and divides it into two-digit decimal chunks, dividing each chunk by 100 and multiplying by the length of i, then assigning the result to i.
 
-The decoding method used in this program involves using the string “i=” 0123456789.,abcdefghijklmnopqrstuvwxyz", dividing it into two-digit decimal numbers, dividing by 100, 
+The information that can be extracted varies depending on the decoding method. Since π is a high-quality random number sequence, most of the information is useless and not practical.
 
-multiplying by the length of i, and substituting it into i.
+This program generates π using a Spigot-type algorithm.
 
-The information that can be extracted varies depending on the decoding method. Since π is a high-quality random number sequence, most of it is useless information and not very practical.  
+``info.py`
+#!/usr/bin/env python3
+# Generates π using a Spigot-type algorithm and decodes it into characters in two-digit chunks.
+# Modification: Changed digit comparison and extraction from floating-point division (/) to integer floor division (//).
 
-This program generates π using the Gauss-Legendre method.  
-
-```info.py
-#!/usr/bin/python3
+# The original a/b and a1/b1 approximate values ​​of π from above and below, so in practice they go quite deep.
+# Although they produce the correct number of digits, (1) distinct rational numbers can be == in float,
+# (2) the floor of int(a/b) shifts just below the integer boundary, which is fundamentally unhealthy.
+# // Using this makes the correctness unconditionally strict, independent of IEEE-754 rounding or the digit statistics of π.
 import sys
 k, a, b, a1, b1 = 2, 4, 1, 12, 4
-i=" 0123456789.,abcdefghijklmnopqrstuvwxyz"
-f=0
-while(True):
-  # Next approximation
-  p, q, k = k*k, 2*k+1, k+1
-  a, b, a1, b1 = a1, b1, p*a+q*a1, p*b+q*b1
-  # Print common digits
-  d = a / b
-  d1 = a1 / b1
-  n1=-1
-  while(d == d1):
-    if n1==-1:
-        pass
-    else:
-        n=int((int(n1)*10+int(d))/100*len(i))
-        print(i[n],end='')
-    n1=d
-    sys.stdout.flush()
-    a, a1 = 10*(a%b), 10*(a1%b1)
-    d, d1 = a/b, a1/b1
+i = " 0123456789.,abcdefghijklmnopqrstuvwxyz"
+buf = [] # 2-digit buffer. Maintain the value across the outer loop
+while True:
+# Next approximation
+p, q, k = k*k, 2*k+1, k+1
+a, b, a1, b1 = a1, b1, p*a + ​​q*a1, p*b + q*b1
+# Decode common digits in disjoint 2-digit chunks
+d = a // b
+d1 = a1 // b1
+while d == d1:
+buf.append(d)
+if len(buf) == 2:
+# Convert (buf0*10+buf1)/100*len(i) to integer arithmetic (matches the float version in the range of 0..99)
+n = (buf[0] * 10 + buf[1]) * len(i) // 100
+print(i[n], end='')
+sys.stdout.flush()
+buf = []
+a, a1 = 10 * (a % b), 10 * (a1 % b1)
+d, d1 = a // b, a1 // b1
+
 ```
- 
 
-With the Gauss-Legendre method used in this program, as long as there is enough time, the value of π can be extracted, allowing infinite digits of π to be obtained from finite memory. 
+In this program's Spigot-type algorithm, the value of pi can be retrieved if enough time is available, allowing for the extraction of an infinite number of digits of pi from finite memory. However, the time given to humanity is finite. It would be interesting to assume it's infinite.
 
-However, the time given to humanity is finite. It would be interesting to assume infinity.
+Next, we attempt to extract arbitrary information from true random numbers from environmental noise.
 
-Next, we will attempt to extract arbitrary information from the environmental noise of /dev/random.
+truerand.rand() is a hardware-derived true random number that can be retrieved on x86_64. Here, we assume it is a perfectly random number.
 
-The random numbers that can be extracted from the environmental noise of /dev/random are actually called true random numbers. Here, we assume that true random numbers are perfect random numbers.
+The difference between perfectly random numbers and true random numbers is as follows:
 
-The difference between perfect random numbers and true random numbers is as follows.
+|There are two types of random numbers usable by computers: pseudorandom numbers with periodicity and true random numbers obtained from TRNG.
 
-| There are two types of random numbers that can be used by computers: pseudo-random numbers with a cycle and true random numbers obtained from a TRNG. 
+|There are also "perfectly random numbers," which can only be handled probabilistically.
 
-There is also something called “perfect random numbers,” which can only be handled probabilistically. In other words, perfect random numbers exist only in the realm of ideas.
+|In other words, truly random numbers only exist in the realm of ideas.
+|
+|"True random numbers" have a different definition from "perfectly random numbers."
+|
+|* A true random number is, in principle, an unpredictable and truly disordered random number.
+|It is used in contrast to pseudo-random numbers generated arithmetically by computers.
+|Physical random numbers that utilize quantum behavior, such as the decay of radioactive elements, are known.
+|True random number. - From Shogakukan's Digital Daijisen.
+|
+|* A perfectly random number refers to a sequence of numbers that occur in a completely random order, and is also called an ideal random number.
+|It can only be treated probabilistically. - Search Labs | By AI.
 
 |
+|Although the definitions are different, it is acceptable to consider true random numbers as perfectly random numbers and treat them similarly.
 
-| “True random numbers” have a different definition from “perfect random numbers.”
+||Perfectly random numbers exhibit Jungian synchronicity (strange coincidences that transcend causality),
+|and the EPR paradox has become EPR correlation,
+|making them in the real world may be difficult or impossible.
+|There are two answers to whether a truly random number is perfectly random or not: yes/no.
 
-|
+The phone number of the person you're interested in is also included in a perfectly random number sequence.
 
-| • True random numbers are inherently unpredictable and truly disordered random numbers. They are contrasted with pseudo-random numbers generated arithmetically by computers. 
+Any information can be extracted from a perfectly random number using the decoding method below, so simply possessing the program below means you "possess a program that can extract the phone number of the person you're interested in."
 
-| Physical random numbers that utilize quantum behavior, such as the decay of radioactive elements, are known. True random numbers. - Shogakukan - Digital Daijisen.  
+However, since you don't know which part of the random number sequence contains the phone number, you cannot say that you "know the phone number of the person you're interested in."
 
-|  
+If the number of trials is finite, there's a possibility that the phone number of the person you're interested in isn't included, in which case you cannot say you "possess the phone number of the person you're interested in."
 
-| • Perfect random numbers refer to a sequence of numbers generated in a completely random order and are also called ideal random numbers. It can only be handled probabilistically. 
-| - Search Labs | AI-based.
+A perfectly random number sequence is mostly useless information and not very practical, but if you continue it infinitely, you'll probably get the desired number sequence, so keep waiting patiently. However, the Earth will probably be destroyed before that happens. The hearth cat knows everything, Tomiyasu Fusei.
 
-|
+You can find the phone number of the person you like by asking the hearth cat, but since cats can't speak numbers, you need to decode it in cat language. The hearth cat is a perfectly random number sequence.
 
-|Although the definitions differ, it is acceptable to treat true random numbers as perfect random numbers and handle them similarly.
+This could be called the inherent nature of information.
 
-|
 
-|Perfect random numbers may be difficult or impossible to create in the real world due to Jung's synchronicity (strange coincidences 
+truerand module:
 
-| beyond causality) and the fact that the EPR paradox has become EPR correlation. Whether a true random number is a perfect random number or not has two possible answers: yes or no.  
-
-The phone number of the person you like is also included in the perfect random number sequence.  
-
-Since any information can be extracted from a perfect random number using the decoding method below, simply having the program below means you have a program that can extract 
-
-the phone number of the person you like.  
-
-However, since it is unclear which part of the random number sequence contains the phone number, you cannot say that you know the phone number of the person you like.
-
-If the number of trials is finite, there is a possibility that the phone number of the person you like is not included, so in that case, 
-
-you cannot say that you have the phone number of the person you like.
-
-A completely random number sequence is mostly useless information and not very practical, but if you continue it infinitely, the desired number sequence will probably appear, 
-
-so be patient and wait. However, the Earth will probably be destroyed before that happens.
-
-Knowing everything, the stove cat, Tomiyasu Fūsei
-
-The phone number of the person you like can be found by asking the stove cat, but since cats cannot speak numbers, decoding cat language is necessary. 
-
-A completely random number sequence is the stove cat.
-
-This is what we might call the inherent nature of information.
+https://qiita.com/fygar256/items/657719d5670f4534401f
 
 ```phoneno.py
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import os
 import binascii
-
+import truerand
 
 def main():
-    f=open("/dev/random",'rb') # /dev/randomを開く
-    while(1):
-        randomdata=f.read(1) # 1バイトの完全乱数の読み出し
-        randomhex=binascii.hexlify(randomdata) #１６進の文字列に変換
-        randomint=int(randomhex,16) # 整数に変換
-        i='0123456789 '
-        n=randomint/256*len(i)
-        print(i[n],end='')
-    f.close() # /dev/randomを閉じる
-    return
-
+while(1):
+randomdata=truerand.rand(1) # Read a 1-byte completely random number
+i='0123456789 '
+n=int(randomdata/256*len(i))
+print(i[n],end='')
+return
 if __name__=='__main__':
-	main()
-	exit(0)
-
+main()
+exit(0)
 ```
 
+Next, I tried to guess the 3-digit number for the medicine box key.
 
-Next, I tried to guess the three-digit number for the medicine cabinet lock.
+The amount of information contained in an event occurring with probability p is -log_2 p.
+Therefore, the amount of information contained in the answer to a safe key quiz with a probability of 1/1000 is -log_2 1/1000 = 3log_2 10 = 9.96578…
 
-The amount of information contained in an event that occurs with probability p is -log₂ p, so the amount of information contained in the answer to the safe lock quiz, which has a probability of 1/1000,
+If an event occurring with probability 0 occurs, the amount of information is infinite, and if an event occurring with probability 1 occurs, the amount of information is 0.
 
-is -log₂ 1/1000 = 3log₂ 10 = 6.907755279.
+The definition of "information amount" is:
+① "Information amount" quantitatively defined in information theory.
+② "Information amount" simply representing how many digits of information are arranged in one bit.
 
-If an event with probability 0 occurs, the information content is infinite, and if an event with probability 1 occurs, the information content is 0.
-
-There are two definitions of the term “information content”:
-
-① “Information content” as quantitatively defined in information theory.
-
-② “Information content” as simply the number of bits of information in a row.
-
+These two can sometimes be treated as one without contradiction.
 The unit is [bit].
+
+### Differences in information amount due to representation (encoding)
+
+For example, if π is represented as "the ratio of the circumference to the diameter of a circle," it is 27 bytes in UTF-8 code. However, if it is 3.141592…, it has infinite information. Simply writing "π" is 2 bytes in UTF-8 code. Writing "pi" is 2 bytes in ASCII code. These refer to the same thing, although there is a distinction between content and container. If π = 3.14, then "3.14" is 4 bytes in ASCII code.
+As a 64-bit floating-point number, 3.14 ≈ "0x1f 0x85 0xeb 0x51 0xb8 0x1e 0x09 0x40" is 8 bytes. This shows that different encoding rules result in different amounts of information.
