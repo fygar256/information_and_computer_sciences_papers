@@ -1,6 +1,6 @@
 ---
 title: A Consideration of the St. Petersburg Paradox Using Python 3
-tags: Python 3 Terminal Mathematics
+tags: Python3 Terminal Mathematics
 author: fygar256
 slide: false
 ---
@@ -22,7 +22,7 @@ Since S = 2, μ = 2^(S-1) = 2
 
 Therefore, the answer is 2.
 
-This is semantically valid reasoning, but mathematically incorrect. This is because the expected value of the number of coin tosses in a single game is not linear; it can potentially be infinite.
+This is semantically valid reasoning, but mathematically incorrect. Because the prize 2^(N-1) is a nonlinear function of N, the expected prize is not 2^(S-1); in fact it diverges to infinity.
 
 In general, the equation f(g(x))=g(f(x)) does not hold for expected values.
 
@@ -36,7 +36,7 @@ The following shows a program to calculate the average value when Method 1 and t
 
 Here, n=10000.
 
-````ev0.py
+```ev0.py
 #!/usr/bin/python3
 import os
 import binascii
