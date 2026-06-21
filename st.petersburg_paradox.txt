@@ -70,8 +70,8 @@ for i in range(N):
         r1=binascii.hexlify(n)
         r2=int(r1,16)
         if r2%2: break
-        r+=[k]
-        l+=[2**(k-1)]
+    r+=[k]
+    l+=[2**(k-1)]
 # Take the average
 a=sum(l)/N
 b=sum(r)/N
